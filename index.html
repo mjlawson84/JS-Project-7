@@ -1,0 +1,110 @@
+<!-- 
+		Name: <Matthew Lawson>
+		Date: <6/21/18>
+		Class: CSCI2447, Javascript Fundamentals
+		Project 7
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Whack-A-Mole (CSCI2447)</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="ui/jquery-ui.min.js"></script>
+    <script>
+    	var score = 0;
+    	var timer = 30;
+    	var clock;
+    	var t;
+    	var randX;
+    	var randY;
+    	$(document).ready( function() {
+			$("#start_button").click(function(){
+		 	startGame();
+		 		
+			});
+			$("#gamespace").on("click","img", function(){
+				incScore();
+				$(this).toggle("fold");
+			});
+		});
+
+		function startGame() {
+			
+			decTimer();
+			addMole();
+		 	$("#gamespace").css("background-color", "#00bfff");
+		 	$("h1").css("color", "#ff6347");
+		}
+
+		function randPosX() {
+			return Math.floor(Math.random() * 280);	
+		}
+
+		function randPosY() {
+			return Math.floor(Math.random() * 500);	
+		}
+
+		function incScore() {
+			score += 1;
+			$("#score").html(score + " points");
+		}
+
+		function decTimer() {
+			if(timer <0) {
+				clearTimeout(clock);
+			}
+			else {
+			$("#timer").show();
+			$("#timer").html(timer + " seconds left");
+			clock = setTimeout("decTimer()",1000);
+			timer -=1;
+			}
+			
+		}
+
+		function addMole() {
+			if(timer <0) {
+				clearTimeout(t);
+			}
+			else {	
+			randX = randPosX();
+			randY = randPosY();
+			$("#gamespace").append("<img src= 'img/mole.png' style='top:"+randX+"px; left:"+randY+"px; '/>");
+			var r = Math.floor(Math.random()*2000);
+			t = setTimeout("addMole()", r);
+			}
+		}
+
+    </script>	
+    
+    <!-- CSS styles: This is for me to worry about; not you. -->
+	<link href="css/game.css" rel="stylesheet" />
+    
+  </head>
+  <body>
+
+	<div id="content">
+
+		<h1>Whack-A-Mole</h1>
+		
+		<p>After clicking "start", you will have 30 seconds to click
+		as many moles as you can. The moles appear randomly so be ready! </p>
+		
+		<div id="controls">
+			<span id="score">0 pts</span>
+			<button type="button" id="start_button">Start!</button>
+		</div>
+		
+		<div id="timer">30 seconds left</div>
+		
+		<div id="gamespace">
+
+			
+			
+		</div>
+		
+	</div>
+  </body>
+</html>
